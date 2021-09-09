@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.MonitorNotifier
+import androidx.recyclerview.widget.RecyclerView as WidgetRecyclerView
 
 class MainActivity : AppCompatActivity() {
     lateinit var beaconListView: ListView
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             beaconListView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
                 beacons
                     .sortedBy { it.distance }
-                    .map { "${it.id1}\nid2: ${it.id2} id3:  rssi: ${it.rssi}\nest. distance: ${it.distance} m" }.toTypedArray())
+                    .map { "${it.bluetoothName}\n${it.id1}\nid2: ${it.id2} id3:  rssi: ${it.rssi}\nest. distance: ${it.distance} m" }.toTypedArray())
         }
     }
 
@@ -139,7 +140,7 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        for (i in 1..permissions.size-1) {
+        for (i in 1 until permissions.size) {
             Log.d(TAG, "onRequestPermissionResult for "+permissions[i]+":" +grantResults[i])
         }
     }

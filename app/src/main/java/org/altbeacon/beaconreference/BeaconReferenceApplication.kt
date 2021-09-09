@@ -33,9 +33,38 @@ class BeaconReferenceApplication: Application() {
         // find a different type of beacon like Eddystone or iBeacon, you must specify the byte layout
         // for that beacon's advertisement with a line like below.
         //
+        //  ALTBEACON      m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25
+        //  EDDYSTONE TLM  x,s:0-1=feaa,m:2-2=20,d:3-3,d:4-5,d:6-7,d:8-11,d:12-15
+        //  EDDYSTONE UID  s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19
+        //  EDDYSTONE URL  s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v
+        //  IBEACON        m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24
+        //
         // If you don't care about AltBeacon, you can clear it from the defaults:
         beaconManager.getBeaconParsers().clear()
 
+/*        // The example shows how to find ALT BEACON
+        beaconManager.getBeaconParsers().add(
+            BeaconParser().
+            setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25")
+        )
+        // The example shows how to find EDDYSTONE TLM
+        beaconManager.getBeaconParsers().add(
+            BeaconParser().
+            setBeaconLayout("x,s:0-1=feaa,m:2-2=20,d:3-3,d:4-5,d:6-7,d:8-11,d:12-15")
+        )
+
+        // The example shows how to find EDDYSTONE UID
+        beaconManager.getBeaconParsers().add(
+            BeaconParser().
+            setBeaconLayout("s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19")
+        )
+        // The example shows how to find EDDYSTONE URL
+        beaconManager.getBeaconParsers().add(
+            BeaconParser().
+            setBeaconLayout("s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v")
+        )
+
+ */
         // The example shows how to find iBeacon.
         beaconManager.getBeaconParsers().add(
             BeaconParser().
@@ -50,7 +79,7 @@ class BeaconReferenceApplication: Application() {
         // stack and optionally:
         // - power cycle bluetooth to recover on bluetooth problems
         // - periodically do a proactive scan or transmission to verify the bluetooth stack is OK
-        // BluetoothMedic.getInstance().enablePowerCycleOnFailures(this)
+         BluetoothMedic.getInstance().enablePowerCycleOnFailures(this)
         // BluetoothMedic.getInstance().enablePeriodicTests(this, BluetoothMedic.SCAN_TEST + BluetoothMedic.TRANSMIT_TEST)
 
         // By default, the library will scan in the background every 5 minutes on Android 4-7,
@@ -60,10 +89,10 @@ class BeaconReferenceApplication: Application() {
         // If you want to continuously range beacons in the background more often than every 15 mintues,
         // you can use the library's built-in foreground service to unlock this behavior on Android
         // 8+.   the method below shows how you set that up.
-        setupForegroundService()
-        beaconManager.setEnableScheduledScanJobs(false);
-        beaconManager.setBackgroundBetweenScanPeriod(0);
-        beaconManager.setBackgroundScanPeriod(1100);
+//        setupForegroundService()
+//        beaconManager.setEnableScheduledScanJobs(false);
+//        beaconManager.backgroundBetweenScanPeriod = 5000;
+//        beaconManager.backgroundScanPeriod = 30*1000;
 
         // Ranging callbacks will drop out if no beacons are detected
         // Monitoring callbacks will be delayed by up to 25 minutes on region exit
